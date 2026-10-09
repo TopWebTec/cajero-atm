@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión | Cajero ATM</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="encabezado">
+        <div class="marca">
+            <span class="logo">▥</span>
+            <div>
+                <h1>CAJERO AUTOMÁTICO</h1>
+            </div>
+        </div>
+
+        <span class="estado" id="estadoCajero">
+            Verificando conexión...
+        </span>
+    </header>
+
+    <main class="contenedor">
+        <section class="panel-operacion">
+            <h2>Bienvenido al cajero ATM</h2>
+            <p>Selecciona el tipo de acceso.</p>
+
+            <div class="operaciones">
+                <button
+                    type="button"
+                    class="tarjeta"
+                    id="btnCliente">
+
+                    <span>
+                        <strong>Acceso de cliente</strong>
+                        <small>Consulta y opera tu cuenta bancaria</small>
+                    </span>
+
+                    <span class="flecha">›</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="tarjeta"
+                    id="btnAdministrador">
+
+                    <span>
+                        <strong>Acceso de administrador</strong>
+                        <small>Administración del cajero ATM</small>
+                    </span>
+
+                    <span class="flecha">›</span>
+                </button>
+            </div>
+
+            <form id="formAcceso" hidden>
+                <h2 id="tituloAcceso">Iniciar sesión</h2>
+
+                <div id="campoCuenta">
+                    <label for="cuenta">Número de cuenta</label>
+                    <input
+                        id="cuenta"
+                        name="cuenta"
+                        type="text"
+                        inputmode="numeric"
+                        maxlength="16"
+                        pattern="[0-9]{1,16}"
+                        placeholder="Ingresa tu número de cuenta"
+                        autocomplete="username"
+                        required>
+                </div>
+
+                <div id="campoUsuario" hidden>
+                    <label for="usuario">Usuario administrador</label>
+                    <input
+                        id="usuario"
+                        name="usuario"
+                        type="text"
+                        placeholder="Ingresa tu usuario"
+                        autocomplete="username"
+                        disabled>
+                </div>
+
+                <div>
+                    <label for="clave">PIN o contraseña</label>
+                    <input
+                        id="clave"
+                        name="clave"
+                        type="password"
+                        placeholder="Ingresa tu PIN o contraseña"
+                        autocomplete="current-password"
+                        required>
+                </div>
+
+                <button type="submit" class="boton-principal">
+                    Iniciar sesión
+                </button>
+
+                <button
+                    type="button"
+                    class="boton-secundario"
+                    id="btnRegresar">
+                    Regresar
+                </button>
+
+                <p id="mensajeAcceso" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <footer>
+            <p>EXAMEN SEGUNDO PARCIAL TAPW</p>
+        </footer>
+    </main>
+
+    <script src="/login.js"></script>
+</body>
+</html>

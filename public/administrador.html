@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración | Cajero ATM</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="encabezado">
+        <div class="marca">
+            <span class="logo">▥</span>
+            <div>
+                <h1>CAJERO AUTOMÁTICO</h1>
+            </div>
+        </div>
+
+        <span class="estado" id="estadoCajero">
+            Verificando conexión...
+        </span>
+    </header>
+
+    <main class="contenedor">
+        <h2 class="titulo-menu">Panel de administración</h2>
+        <p>Control y supervisión del cajero ATM.</p>
+
+        <section class="operaciones">
+            <article class="tarjeta">
+                <span>
+                    <strong>Efectivo disponible</strong>
+                    <small>Dinero físico disponible dentro del cajero</small>
+                    <h2 id="efectivoDisponible">$0.00 MXN</h2>
+                </span>
+            </article>
+
+            <article class="tarjeta">
+                <span>
+                    <strong>Estado del cajero</strong>
+                    <small id="detalleEstado">Consultando estado...</small>
+                </span>
+            </article>
+        </section>
+
+        <section class="panel-operacion">
+            <h2>Abastecer cajero</h2>
+            <p>
+                Registra la cantidad de efectivo físico que se agrega
+                al cajero.
+            </p>
+
+            <form id="formAbastecer">
+                <label for="cantidad">
+                    Cantidad a agregar (MXN)
+                </label>
+
+                <input
+                    id="cantidad"
+                    name="cantidad"
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="Ej. 5000"
+                    required>
+
+                <button type="submit" class="boton-principal">
+                    Agregar efectivo
+                </button>
+            </form>
+
+            <p id="mensajeAdmin" role="status" aria-live="polite"></p>
+
+            <button
+                type="button"
+                class="boton-secundario"
+                id="btnActualizar">
+                Actualizar información
+            </button>
+        </section>
+
+        <section class="panel-operacion">
+            <h2>Movimientos bancarios</h2>
+            <p>
+                El historial de retiros, depósitos y transferencias
+                estará disponible cuando se conecte banco-central.
+            </p>
+        </section>
+
+        <button
+            type="button"
+            class="boton-secundario"
+            onclick="window.location.href='/login.html'">
+            Cerrar sesión
+        </button>
+
+        <footer>
+            <p>EXAMEN SEGUNDO PARCIAL TAPW</p>
+        </footer>
+    </main>
+
+    <script src="/admin.js"></script>
+</body>
+</html>

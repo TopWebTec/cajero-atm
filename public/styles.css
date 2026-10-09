@@ -1,0 +1,245 @@
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #326b70;
+    background: #f4f3ed;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f7f1, #e9e8e1);
+}
+
+.encabezado {
+    min-height: 115px;
+    padding: 20px 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: #f8f7f2;
+    border-bottom: 1px solid #d8ddd8;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: #087d83;
+    color: white;
+    font-size: 36px;
+}
+
+.encabezado h1 {
+    margin: 0;
+    color: #126a78;
+    font-size: clamp(22px, 3vw, 34px);
+    letter-spacing: 1px;
+}
+
+.encabezado p {
+    margin: 6px 0 0;
+    color: #668589;
+    font-size: 14px;
+}
+
+.estado {
+    padding: 10px 15px;
+    border: 1px solid #d1ded9;
+    border-radius: 20px;
+    background: #eaf3ed;
+    color: #286b50;
+    font-size: 14px;
+}
+
+.contenedor {
+    width: min(100% - 40px, 1120px);
+    margin: 30px auto;
+}
+
+.titulo-menu {
+    margin: 20px 0 34px;
+    text-align: center;
+    color: #53878a;
+    font-size: clamp(23px, 3.4vw, 38px);
+    font-weight: 400;
+}
+
+.operaciones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 22px;
+}
+
+.tarjeta {
+    min-height: 82px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border: 1px solid #656565;
+    border-radius: 8px;
+    background: linear-gradient(110deg, #20b7b1, #07b8bee7);
+    color: #fff;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 3px 5px #164c4c15;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.tarjeta:hover,
+.tarjeta:focus-visible {
+    background: linear-gradient(110deg, #f4f9f8, #9ae3e7);
+    transform: translateY(-2px);
+    color: #000000;
+}
+
+.tarjeta strong {
+    font-size: clamp(16px, 2vw, 23px);
+    font-weight: 500;
+}
+
+.tarjeta > span:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tarjeta small {
+    color: #d8f5f1;
+    font-size: 13px;
+}
+
+.flecha {
+    flex-shrink: 0;
+    color: white;
+    font-size: 36px;
+    line-height: 1;
+}
+
+.panel-operacion {
+    margin-top: 28px;
+    padding: 28px;
+    border: 1px solid #d8e1dd;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 5px 18px #183c3c12;
+}
+
+.panel-operacion[hidden],
+#campoCuenta[hidden],
+#campoMonto[hidden] {
+    display: none;
+}
+
+.panel-operacion h2 {
+    margin-top: 0;
+    color: #087d83;
+}
+
+label {
+    display: block;
+    margin: 18px 0 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #b9cfcd;
+    border-radius: 7px;
+    font: inherit;
+    font-size: 16px;
+}
+
+input:focus {
+    outline: 2px solid #70cbc4;
+    border-color: #087d83;
+}
+
+.boton-principal,
+.boton-secundario {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    border: none;
+    border-radius: 7px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.boton-principal {
+    background: #008f92;
+    color: white;
+}
+
+.boton-principal:hover {
+    background: #08777c;
+}
+
+.boton-secundario {
+    margin-top: 10px;
+    background: #e5eeeb;
+    color: #326b70;
+}
+
+#mensaje {
+    line-height: 1.5;
+}
+
+footer {
+    margin-top: 38px;
+    padding: 20px;
+    color: #7b9391;
+    text-align: center;
+    font-size: 13px;
+}
+
+@media (max-width: 650px) {
+    .encabezado {
+        align-items: flex-start;
+    }
+
+    .estado {
+        margin-left: 76px;
+    }
+
+    .operaciones {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .tarjeta {
+        min-height: 74px;
+    }
+
+    .contenedor {
+        width: min(100% - 24px, 520px);
+        margin-top: 20px;
+    }
+
+    .titulo-menu {
+        margin: 24px 0;
+    }
+
+    .panel-operacion {
+        padding: 20px;
+    }
+}

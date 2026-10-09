@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones del cliente | Cajero ATM</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="encabezado">
+        <div class="marca">
+            <span class="logo">▥</span>
+            <div>
+                <h1>CAJERO AUTOMÁTICO</h1>
+            </div>
+        </div>
+
+        <span class="estado" id="estadoCajero">
+            Verificando conexión...
+        </span>
+    </header>
+
+    <main class="contenedor">
+        <section id="menuCliente">
+            <h2 class="titulo-menu">Operaciones del cliente</h2>
+
+            <p id="sesionActual">
+                Bienvenido al cajero ATM.
+            </p>
+
+            <section class="operaciones">
+                <button
+                    class="tarjeta"
+                    type="button"
+                    onclick="mostrarOperacion('retiro')">
+                    <span>
+                        <strong>Retirar efectivo</strong>
+                        <small>Selecciona el importe que deseas retirar</small>
+                    </span>
+                    <span class="flecha">›</span>
+                </button>
+
+                <button
+                    class="tarjeta"
+                    type="button"
+                    onclick="mostrarOperacion('saldo')">
+                    <span>
+                        <strong>Consultar saldo</strong>
+                        <small>Consulta el saldo de tu cuenta</small>
+                    </span>
+                    <span class="flecha">›</span>
+                </button>
+
+                <button
+                    class="tarjeta"
+                    type="button"
+                    onclick="mostrarOperacion('deposito')">
+                    <span>
+                        <strong>Depositar dinero</strong>
+                        <small>Consulta las opciones de depósito</small>
+                    </span>
+                    <span class="flecha">›</span>
+                </button>
+
+                <button
+                    class="tarjeta"
+                    type="button"
+                    onclick="mostrarOperacion('movimientos')">
+                    <span>
+                        <strong>Movimientos</strong>
+                        <small>Consulta las operaciones de tu cuenta</small>
+                    </span>
+                    <span class="flecha">›</span>
+                </button>
+            </section>
+
+            <section class="panel-operacion" id="panelOperacion" hidden>
+                <h2 id="tituloOperacion">Operación</h2>
+
+                <form id="formOperacion">
+                    <div id="campoCuenta">
+                        <label for="cuenta">Número de cuenta</label>
+                        <input
+                            id="cuenta"
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="16"
+                            pattern="[0-9]{1,16}"
+                            placeholder="Ingresa tu número de cuenta"
+                            required>
+                    </div>
+
+                    <div id="campoMonto" hidden>
+                        <label>Selecciona un importe</label>
+
+                        <div class="montos-retiro">
+                            <button type="button" class="boton-monto"
+                                onclick="seleccionarMonto(200)">$200</button>
+
+                            <button type="button" class="boton-monto"
+                                onclick="seleccionarMonto(500)">$500</button>
+
+                            <button type="button" class="boton-monto"
+                                onclick="seleccionarMonto(1000)">$1,000</button>
+
+                            <button type="button" class="boton-monto"
+                                onclick="seleccionarMonto(2000)">$2,000</button>
+                        </div>
+
+                        <label for="monto">
+                            O ingresa otro importe en pesos mexicanos
+                        </label>
+                        <input
+                            id="monto"
+                            type="number"
+                            min="0.01"
+                            step="0.01"
+                            placeholder="Ej. 500.00">
+                    </div>
+
+                    <button type="submit" class="boton-principal">
+                        Continuar
+                    </button>
+
+                    <button
+                        type="button"
+                        class="boton-secundario"
+                        onclick="cerrarOperacion()">
+                        Regresar al menú
+                    </button>
+                </form>
+
+                <p id="mensaje" role="status" aria-live="polite"></p>
+            </section>
+
+            <button
+                type="button"
+                class="boton-secundario"
+                onclick="cerrarSesion()">
+                Cerrar sesión
+            </button>
+        </section>
+
+        <footer>
+            <p>EXAMEN SEGUNDO PARCIAL TAPW</p>
+        </footer>
+    </main>
+
+    <script src="/funcionalidades.js"></script>
+</body>
+</html>
