@@ -9,11 +9,9 @@ const inputCuenta = document.getElementById('cuenta');
 const inputMonto = document.getElementById('monto');
 const mensaje = document.getElementById('mensaje');
 
-
 function seleccionarMonto(cantidad) {
     inputMonto.value = cantidad;
 }
-
 
 function mostrarOperacion(tipo) {
     operacionActual = tipo;
@@ -31,7 +29,6 @@ function mostrarOperacion(tipo) {
     document.getElementById('tituloOperacion').textContent =
         titulos[tipo] || 'Operación';
 
-    
     if (tipo === 'movimientos') {
         campoCuenta.hidden = false;
         inputCuenta.required = true;
@@ -55,14 +52,12 @@ function mostrarOperacion(tipo) {
     });
 }
 
-
 function cerrarOperacion() {
     panelOperacion.hidden = true;
     formularioOperacion.reset();
     mensaje.textContent = '';
     operacionActual = '';
 }
-
 
 formularioOperacion.addEventListener('submit', async function (evento) {
     evento.preventDefault();
@@ -77,7 +72,7 @@ formularioOperacion.addEventListener('submit', async function (evento) {
 
     if (operacionActual === 'movimientos') {
         mensaje.textContent =
-            'La consulta de movimientos estará disponible cuando se conecte banco-central.';
+            'La consulta de movimientos estará disponible próximamente.';
         return;
     }
 
@@ -87,8 +82,7 @@ formularioOperacion.addEventListener('submit', async function (evento) {
         const monto = Number(inputMonto.value);
 
         if (!Number.isFinite(monto) || monto <= 0) {
-            mensaje.textContent =
-                'Ingresa un importe mayor que cero.';
+            mensaje.textContent = 'Ingresa un importe mayor que cero.';
             return;
         }
 
@@ -121,16 +115,39 @@ formularioOperacion.addEventListener('submit', async function (evento) {
 
         const resultado = await respuesta.json();
 
-        if (!respuesta.ok) {
+        if (!respuesta.ok || resultado.success === false) {
             throw new Error(
                 resultado.message ||
+                resultado.error ||
                 'No se pudo procesar la solicitud.'
             );
         }
 
+        // CONSULTA DE SALDO
+        if (operacionActual === 'saldo') {
+            const cuentaDatos = resultado.cuenta ?? resultado;
+            const saldo = obtenerSaldo(cuentaDatos);
+
+            if (saldo === null) {
+                console.log('Respuesta de saldo recibida:', resultado);
+
+                mensaje.textContent =
+                    'La cuenta se consultó, pero no se encontró el saldo en la respuesta del Banco Central. Revisa la consola del navegador (F12).';
+
+                return;
+            }
+
+            mensaje.textContent =
+                `Consulta de cuenta realizada correctamente. Saldo disponible: ${formatearDinero(saldo)}`;
+
+            return;
+        }
+
+        // RETIRO Y DEPÓSITO
         mensaje.textContent =
             resultado.message ||
             'Solicitud procesada correctamente.';
+
     } catch (error) {
         mensaje.textContent =
             error.message ||
@@ -138,11 +155,47 @@ formularioOperacion.addEventListener('submit', async function (evento) {
     }
 });
 
+// Busca el saldo en formatos comunes de respuesta.
+function obtenerSaldo(datos) {
+    if (!datos || typeof datos !== 'object') {
+        return null;
+    }
+
+    const posiblesSaldos = [
+        datos.balance,
+        datos.saldo,
+        datos.available_balance,
+        datos.account?.balance,
+        datos.account?.saldo,
+        datos.data?.balance,
+        datos.data?.saldo,
+        datos.data?.account?.balance
+    ];
+
+    for (const valor of posiblesSaldos) {
+        if (
+            valor !== null &&
+            valor !== undefined &&
+            valor !== '' &&
+            Number.isFinite(Number(valor))
+        ) {
+            return Number(valor);
+        }
+    }
+
+    return null;
+}
+
+function formatearDinero(cantidad) {
+    return cantidad.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    });
+}
 
 function cerrarSesion() {
     window.location.href = '/login.html';
 }
-
 
 fetch('/api/atm/status')
     .then(respuesta => {

@@ -80,10 +80,35 @@
 
         <section class="panel-operacion">
             <h2>Movimientos bancarios</h2>
-            <p>
-                El historial de retiros, depósitos y transferencias
-                estará disponible cuando se conecte banco-central.
-            </p>
+
+<p>Historial de retiros, depósitos y transferencias registrados en Banco Central.</p>
+
+<div class="tabla-contenedor">
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Cuenta origen</th>
+                <th>Cuenta destino</th>
+                <th>Monto</th>
+                <th>Nodo</th>
+            </tr>
+        </thead>
+        <tbody id="tablaMovimientos">
+            <tr>
+                <td colspan="6">Cargando movimientos...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p id="mensajeMovimientos" role="status"></p>
+
+<button type="button" id="btnActualizarMovimientos">
+    Actualizar movimientos
+</button>
+
         </section>
 
         <button
@@ -98,6 +123,6 @@
         </footer>
     </main>
 
-    <script src="/admin.js"></script>
+    <script src="/administrador.js"></script>
 </body>
 </html>
