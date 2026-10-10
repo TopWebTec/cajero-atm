@@ -1,3 +1,39 @@
 
+# Variables de entorno y credenciales
 .env
+.env.*
+!.env.example
+
+# Dependencias de Node.js
 node_modules/
+
+# Registros
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos temporales y caché
+.nyc_output/
+coverage/
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+
+# Archivos generados
+dist/
+build/
+.next/
+.nuxt/
+.output/
+
+# Configuración local del editor
+.vscode-test/
+
+# Archivos de diagnóstico
+report.*.json
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
