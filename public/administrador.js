@@ -6,7 +6,9 @@ const formAbastecer = document.getElementById('formAbastecer');
 const inputCantidad = document.getElementById('cantidad');
 const mensajeAdmin = document.getElementById('mensajeAdmin');
 const btnActualizar = document.getElementById('btnActualizar');
-
+const tablaMovimientos = document.getElementById('tablaMovimientos');
+const mensajeMovimientos = document.getElementById('mensajeMovimientos');
+const btnActualizarMovimientos = document.getElementById('btnActualizarMovimientos');
 
 async function consultarEfectivo() {
     try {
@@ -105,6 +107,100 @@ formAbastecer.addEventListener('submit', async (evento) => {
             error.message || 'Error al conectar con el servidor.';
     }
 });
+
+
+async function consultarMovimientos() {
+    if (!tablaMovimientos) return;
+
+    tablaMovimientos.innerHTML = `
+        <tr>
+            <td colspan="6">Cargando movimientos...</td>
+        </tr>
+    `;
+
+    if (mensajeMovimientos) {
+        mensajeMovimientos.textContent = '';
+    }
+
+    try {
+        const respuesta = await fetch('/api/atm/movimientos');
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok || !datos.success) {
+            throw new Error(
+                datos.message || 'No se pudieron consultar los movimientos.'
+            );
+        }
+
+        const movimientos = Array.isArray(datos.movimientos)
+            ? datos.movimientos
+            : [];
+
+        if (movimientos.length === 0) {
+            tablaMovimientos.innerHTML = `
+                <tr>
+                    <td colspan="6">No hay movimientos registrados.</td>
+                </tr>
+            `;
+            return;
+        }
+
+        tablaMovimientos.replaceChildren();
+
+        movimientos.forEach((movimiento) => {
+            const fila = document.createElement('tr');
+
+            const fecha = movimiento.created_at
+                ? new Date(movimiento.created_at).toLocaleString('es-MX')
+                : 'Sin fecha';
+
+            const monto = Number(movimiento.amount);
+            const montoFormateado = Number.isFinite(monto)
+                ? monto.toLocaleString('es-MX', {
+                    style: 'currency',
+                    currency: 'MXN'
+                })
+                : 'No disponible';
+
+            const valores = [
+                fecha,
+                movimiento.type ?? 'No especificado',
+                movimiento.origin_account ?? '—',
+                movimiento.destination_account ?? '—',
+                montoFormateado,
+                movimiento.node_name ?? 'No especificado'
+            ];
+
+            valores.forEach((valor) => {
+                const celda = document.createElement('td');
+                celda.textContent = valor;
+                fila.appendChild(celda);
+            });
+
+            tablaMovimientos.appendChild(fila);
+        });
+    } catch (error) {
+        tablaMovimientos.innerHTML = `
+            <tr>
+                <td colspan="6">No se pudieron cargar los movimientos.</td>
+            </tr>
+        `;
+
+        if (mensajeMovimientos) {
+            mensajeMovimientos.textContent = error.message;
+        }
+    }
+}
+
+if (btnActualizarMovimientos) {
+    btnActualizarMovimientos.addEventListener(
+        'click',
+        consultarMovimientos
+    );
+}
+
+consultarMovimientos();
+
 
 
 btnActualizar.addEventListener('click', actualizarPanel);

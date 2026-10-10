@@ -1,16 +1,26 @@
-const BASE_URL = process.env.BANK_CENTRAL_URL;
-const API_KEY = process.env.ATM_API_KEY;
+const BASE_URL = process.env.CENTRAL_API_URL;
+const API_KEY = process.env.SUCURSAL_API_KEY;
 
 async function solicitarBancoCentral(endpoint, opciones = {}) {
     if (!BASE_URL) {
         throw new Error(
-            'Falta configurar BANK_CENTRAL_URL en el archivo .env'
+            'Falta configurar CENTRAL_API_URL en el archivo .env'
         );
     }
 
     if (!API_KEY) {
         throw new Error(
-            'Falta configurar ATM_API_KEY en el archivo .env'
+            'Falta configurar SUCURSAL_API_KEY en el archivo .env'
+        );
+    }
+
+    if (typeof endpoint !== 'string' || !endpoint.trim()) {
+        throw new Error('Debes proporcionar un endpoint válido.');
+    }
+
+    if (typeof fetch !== 'function') {
+        throw new Error(
+            'Se requiere una versión de Node.js que incluya fetch.'
         );
     }
 
@@ -19,29 +29,51 @@ async function solicitarBancoCentral(endpoint, opciones = {}) {
         ? endpoint
         : `/${endpoint}`;
 
-    const respuesta = await fetch(`${urlBase}${ruta}`, {
-        ...opciones,
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'X-API-Key': API_KEY,
-            ...opciones.headers
-        }
-    });
+    const url = `${urlBase}${ruta}`;
 
-    const contenido = await respuesta.text();
-    let datos;
+    const headers = {
+        Accept: 'application/json',
+        'X-API-Key': API_KEY,
+        ...opciones.headers
+    };
+
+    // Agregar Content-Type solamente cuando se envía un cuerpo.
+    if (opciones.body !== undefined && !headers['Content-Type']) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    let respuesta;
 
     try {
-        datos = contenido ? JSON.parse(contenido) : null;
-    } catch {
-        datos = { message: contenido };
+        respuesta = await fetch(url, {
+            ...opciones,
+            headers
+        });
+    } catch (error) {
+        const errorConexion = new Error(
+            `No se pudo conectar con el Banco Central: ${error.message}`
+        );
+
+        errorConexion.cause = error;
+        throw errorConexion;
+    }
+
+    const contenido = await respuesta.text();
+    let datos = null;
+
+    if (contenido) {
+        try {
+            datos = JSON.parse(contenido);
+        } catch {
+            datos = { message: contenido };
+        }
     }
 
     if (!respuesta.ok) {
         const error = new Error(
             datos?.message ||
-            `Error del banco central: HTTP ${respuesta.status}`
+            datos?.error ||
+            `Error del Banco Central: HTTP ${respuesta.status}`
         );
 
         error.status = respuesta.status;
