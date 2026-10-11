@@ -1,49 +1,35 @@
-const BASE_URL = process.env.CENTRAL_API_URL;
-const API_KEY = process.env.SUCURSAL_API_KEY;
-
 async function solicitarBancoCentral(endpoint, opciones = {}) {
-    if (!BASE_URL) {
-        throw new Error(
-            'Falta configurar CENTRAL_API_URL en el archivo .env'
-        );
+    const baseURL = process.env.CENTRAL_API_URL;
+    // Soporta indistintamente cualquier nombre que le hayan dado a la variable
+    const apiKey = process.env.ATM_API_KEY || process.env.SUCURSAL_API_KEY || process.env.CENTRAL_API_KEY;
+
+    if (!baseURL) {
+        throw new Error('Falta configurar CENTRAL_API_URL en el archivo .env');
     }
 
-    if (!API_KEY) {
-        throw new Error(
-            'Falta configurar SUCURSAL_API_KEY en el archivo .env'
-        );
+    if (!apiKey) {
+        throw new Error('Falta configurar ATM_API_KEY en el archivo .env');
     }
 
     if (typeof endpoint !== 'string' || !endpoint.trim()) {
         throw new Error('Debes proporcionar un endpoint válido.');
     }
 
-    if (typeof fetch !== 'function') {
-        throw new Error(
-            'Se requiere una versión de Node.js que incluya fetch.'
-        );
-    }
-
-    const urlBase = BASE_URL.replace(/\/+$/, '');
-    const ruta = endpoint.startsWith('/')
-        ? endpoint
-        : `/${endpoint}`;
-
+    const urlBase = baseURL.replace(/\/+$/, '');
+    const ruta = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     const url = `${urlBase}${ruta}`;
 
     const headers = {
         Accept: 'application/json',
-        'X-API-Key': API_KEY,
+        'X-API-Key': apiKey,
         ...opciones.headers
     };
 
-    // Agregar Content-Type solamente cuando se envía un cuerpo.
     if (opciones.body !== undefined && !headers['Content-Type']) {
         headers['Content-Type'] = 'application/json';
     }
 
     let respuesta;
-
     try {
         respuesta = await fetch(url, {
             ...opciones,
@@ -53,7 +39,6 @@ async function solicitarBancoCentral(endpoint, opciones = {}) {
         const errorConexion = new Error(
             `No se pudo conectar con el Banco Central: ${error.message}`
         );
-
         errorConexion.cause = error;
         throw errorConexion;
     }
@@ -75,10 +60,8 @@ async function solicitarBancoCentral(endpoint, opciones = {}) {
             datos?.error ||
             `Error del Banco Central: HTTP ${respuesta.status}`
         );
-
         error.status = respuesta.status;
         error.data = datos;
-
         throw error;
     }
 

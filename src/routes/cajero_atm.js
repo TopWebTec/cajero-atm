@@ -4,7 +4,8 @@ const path = require('path');
 
 const {
     consultarEfectivo,
-    agregarEfectivo
+    agregarEfectivo,
+    retirarEfectivo
 } = require('../services/efectivo');
 
 const {
@@ -301,6 +302,8 @@ router.post('/retirar', async (req, res) => {
         if (resultado?.success === false) {
             return res.status(400).json(resultado);
         }
+
+        retirarEfectivo(monto);
 
         return res.json({
             success: true,

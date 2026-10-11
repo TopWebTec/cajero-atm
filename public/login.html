@@ -1,12 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesión | Cajero ATM</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
+
 <body>
     <header class="encabezado">
         <div class="marca">
@@ -27,10 +28,7 @@
             <p>Selecciona el tipo de acceso.</p>
 
             <div class="operaciones">
-                <button
-                    type="button"
-                    class="tarjeta"
-                    id="btnCliente">
+                <button type="button" class="tarjeta" id="btnCliente">
 
                     <span>
                         <strong>Acceso de cliente</strong>
@@ -40,10 +38,7 @@
                     <span class="flecha">›</span>
                 </button>
 
-                <button
-                    type="button"
-                    class="tarjeta"
-                    id="btnAdministrador">
+                <button type="button" class="tarjeta" id="btnAdministrador">
 
                     <span>
                         <strong>Acceso de administrador</strong>
@@ -59,30 +54,18 @@
 
                 <div id="campoCuenta">
                     <label for="cuenta">Número de cuenta</label>
-                    <input
-                        id="cuenta"
-                        name="cuenta"
-                        type="text"
-                        inputmode="numeric"
-                        maxlength="16"
-                        pattern="[0-9]{1,16}"
-                        placeholder="Ingresa tu número de cuenta"
-                        autocomplete="username"
+                    <input id="cuenta" name="cuenta" type="text" inputmode="numeric" maxlength="16"
+                        pattern="[0-9]{1,16}" placeholder="Ingresa tu número de cuenta" autocomplete="username"
                         required>
                 </div>
 
                 <div id="campoUsuario" hidden>
                     <label for="usuario">Usuario administrador</label>
-                    <input
-                        id="usuario"
-                        name="usuario"
-                        type="text"
-                        placeholder="Ingresa tu usuario"
-                        autocomplete="username"
-                        disabled>
+                    <input id="usuario" name="usuario" type="text" placeholder="Ingresa tu usuario"
+                        autocomplete="username" disabled>
                 </div>
 
-                <div>
+                <!--<div>
                     <label for="clave">PIN o contraseña</label>
                     <input
                         id="clave"
@@ -91,16 +74,13 @@
                         placeholder="Ingresa tu PIN o contraseña"
                         autocomplete="current-password"
                         required>
-                </div>
+                </div>-->
 
                 <button type="submit" class="boton-principal">
                     Iniciar sesión
                 </button>
 
-                <button
-                    type="button"
-                    class="boton-secundario"
-                    id="btnRegresar">
+                <button type="button" class="boton-secundario" id="btnRegresar">
                     Regresar
                 </button>
 
@@ -115,4 +95,5 @@
 
     <script src="/login.js"></script>
 </body>
+
 </html>

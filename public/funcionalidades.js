@@ -1,3 +1,17 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const cuentaGuardada = params.get('cuenta') || sessionStorage.getItem('cuentaATM');
+    if (cuentaGuardada) {
+        const inputCta = document.getElementById('cuenta');
+        if (inputCta) {
+            inputCta.value = cuentaGuardada;
+        }
+        const sesionTexto = document.getElementById('sesionActual');
+        if (sesionTexto) {
+            sesionTexto.textContent = `Sesión iniciada con la cuenta: ${cuentaGuardada}`;
+        }
+    }
+});
 
 let operacionActual = '';
 
@@ -18,6 +32,12 @@ function mostrarOperacion(tipo) {
 
     formularioOperacion.reset();
     mensaje.textContent = '';
+
+    const cuentaSesion = sessionStorage.getItem('cuentaATM') || new URLSearchParams(window.location.search).get('cuenta');
+    if (cuentaSesion) {
+        inputCuenta.value = cuentaSesion;
+        inputCuenta.readOnly = true;
+    }
 
     const titulos = {
         saldo: 'Consultar saldo',
