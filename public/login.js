@@ -59,7 +59,7 @@ btnCliente.addEventListener('click', () => {
 });
 
 btnAdministrador.addEventListener('click', () => {
-    seleccionarPerfil('administrador');
+    window.location.href = '/administrador.html';
 });
 
 btnRegresar.addEventListener('click', () => {
